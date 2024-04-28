@@ -2,7 +2,6 @@ use basis_universal::{
     BasisTextureFormat, Compressor, CompressorParams, TranscodeParameters, Transcoder,
     TranscoderTextureFormat, UserData,
 };
-use image::GenericImageView;
 
 // This example:
 // - Loads a PNG file
@@ -26,20 +25,7 @@ pub fn main() {
     );
 
     // We need to know how many color channels are in the image
-    use image::ColorType;
-    let channel_count = match &image_data.color() {
-        ColorType::L8 => 1,
-        ColorType::La8 => 2,
-        ColorType::Rgb8 => 3,
-        ColorType::Rgba8 => 4,
-        ColorType::L16 => 1,
-        ColorType::La16 => 2,
-        ColorType::Rgb16 => 3,
-        ColorType::Rgba16 => 4,
-        ColorType::Bgr8 => 3,
-        ColorType::Bgra8 => 4,
-        _ => unimplemented!(),
-    };
+    let channel_count = image_data.color().channel_count();
 
     println!(
         "Going to encode {}x{} image with {} channels ({} uncompressed bytes)",
